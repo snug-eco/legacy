@@ -1,10 +1,12 @@
 jsr main
 brk
 
+var _ptr
+let _buffer 0
 
 lab main
     ;write string into data memory at $0
-    lit 0
+    lit _buffer
     dup
     stv _ptr ;store base ptr
     str "hello world" ;write string into buffer
@@ -21,6 +23,7 @@ lab main/loop
     inc ;inc ptr
     stv _ptr
     jmp main/loop
+
 lab main/done
     pop ;remove char copy
     pop ;remove ptr copy
