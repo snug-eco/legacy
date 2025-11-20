@@ -6,19 +6,19 @@ lab main
     ;write string into data memory at $0
     lit 0
     dup
-    str "hello world"
+    stv _ptr ;store base ptr
+    str "hello world" ;write string into buffer
 
-    stv _ptr
 lab main/loop
     ldv _ptr
     dup
-    lda
+    lda ;read char from buffer
     dup
     lit 0
-    equ
+    equ ;check null terminator
     jcn main/done
-    out
-    inc
+    out ;output char
+    inc ;inc ptr
     stv _ptr
     jmp main/loop
 lab main/done
