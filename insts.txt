@@ -12,13 +12,13 @@
 0x08 GTH a b -- a>b
 0x09 LTH a b -- a<b
 
-0x0a JMP addr --
-0x0b JCN cond addr --
-0x0c JSR addr -- | pc*
+0x0a JMP --
+0x0b JCN cond --
+0x0c JSR -- | pc*
 0x0d RET | addr* --
 
-0x0e LDV name -- val
-0x0f STV val name --
+0x0e LDV -- val
+0x0f STV val --
 0x10 LDA ptr* -- [ptr*]
 0x11 STA val ptr* --
 
