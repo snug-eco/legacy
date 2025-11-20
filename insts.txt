@@ -32,13 +32,13 @@
 
 0x18 AND (a b -- a&b)
 0x19 AOR (a b -- a|b)
-0x20 XOR (a b -- a^b)
-0x21 SHL (a o -- a << o)
-0x22 SHR (a o -- a >> o)
-0x23 NOT (a   -- ~a)
+0x1a XOR (a b -- a^b)
+0x1b SHL (a o -- a << o)
+0x1c SHR (a o -- a >> o)
+0x1d NOT (a   -- ~a)
 
-0x24 DBG (a --)
-0x25 STR x (ptr* --)
+0x1e DBG (a --)
+0x1f STR x (ptr* --)
 
 
 0x70 S00 -- (flush disk cache)
