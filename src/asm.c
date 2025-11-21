@@ -173,7 +173,7 @@ void explore(char* path)
         zP("dbg") 
 
         else if (!strcmp(t, "str"))
-            addr += strlen(tok(f));
+            addr += strlen(tok(f)) + 2; //+1 instruction +1 terminator
 
         else if (!strcmp(t, "lab"))
             register_label(tok(f), addr);
