@@ -165,7 +165,7 @@ void explore(char* path)
         if (0) {}
         zP("brk") zP("inc") zP("pop") zP("swp") zP("dup") oP("lit")
         zP("equ") zP("neq") zP("gth") zP("lth")
-        oP("jmp") oP("jcn") oP("jsr") zP("ret")
+        jP("jmp") jP("jcn") jP("jsr") zP("ret")
         oP("ldv") oP("stv") zP("lda") zP("sta")
         zP("inp") zP("out")
         zP("add") zP("sub") zP("mul") zP("div")
