@@ -31,6 +31,8 @@ lab main/done
     pop ;remove char copy
     pop ;remove ptr copy
 
+    lit 10
+    out
     ret
 
 
