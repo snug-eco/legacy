@@ -244,6 +244,7 @@ void assemble(char* path, FILE* out)
             char* str = tok(f);
             for (; *str; str++)
                 fputc(*str, out);
+            fputc(0x00, out); //termi
         }
 
         else if (!strcmp(t, "lab")) tok(f);
