@@ -41,21 +41,23 @@
 0x1f STR x (ptr* --)
 
 
-0x70 S00 -- (yield to task swapper)
-0x71 S01 -- (flush disk cache)
-0x72 S02 addr* -- byte (read  disk)
-0x73 S03 addr* byte -- (write disk)
+0x80 S00 -- (yield to task swapper)
+0x81 S01 -- (flush disk cache)
+0x82 S02 addr* -- byte (read  disk)
+0x83 S03 addr* byte -- (write disk)
     addr is 4 byte contiguous struct
+    addr 0xff is considered invalid
 
-0x74 S04 name* -- addr* (seek file)
-0x75 S05 addr* -- addr* (open file)
-0x76 S06 name* size -- addr* (create file)
-0x77 S07 addr* -- (delete file)
-0x78 S08 addr* -- size (size file)
+0x84 S04 addr* name* -- (seek file)
+0x85 S05 addr* -- (open  file)
+0x86 S06 addr* -- (close file)
+0x87 S07 addr* name* size -- (create file)
+0x88 S08 addr* -- (delete file)
+0x89 S09 addr* -- size (size file)
 
-0x79 S09 addr* -- id (launch process)
-0x7A S0A id -- (kill process)
-0x7B S0B id -- bool (check process active)
+0x8A S0A addr* -- id (launch process)
+0x8B S0B id -- (kill process)
+0x8C S0C id -- bool (check process active)
 
 
 
