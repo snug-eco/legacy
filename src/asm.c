@@ -262,6 +262,12 @@ void assemble(char* path, FILE* out)
             fputc(inst | 0x80, out);
         }
 
+        else
+        {
+            fprintf(stderr, "error at line %d: invalid instruction '%s'.\n", line_no, t);
+            exit(1);
+        }
+
     }
 
 }
