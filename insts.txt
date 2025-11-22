@@ -45,13 +45,17 @@
 0x71 S01 -- (flush disk cache)
 0x72 S02 addr* -- byte (read  disk)
 0x73 S03 addr* byte -- (write disk)
-    addr is 4 byte contiguose struct
+    addr is 4 byte contiguous struct
 
 0x74 S04 name* -- addr* (seek file)
 0x75 S05 addr* -- addr* (open file)
 0x76 S06 name* size -- addr* (create file)
 0x77 S07 addr* -- (delete file)
 0x78 S08 addr* -- size (size file)
+
+0x79 S09 addr* -- id (launch process)
+0x7A S0A id -- (kill process)
+0x7B S0B id -- bool (check process active)
 
 
 
