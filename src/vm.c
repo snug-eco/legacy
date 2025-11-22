@@ -110,7 +110,7 @@ void run()
             case 0x1c: val = pull(); push(pull() >> val); break;
             case 0x1d: push(~pull()); break;
 
-            case 0x1e: printf("%d\n", pull());
+            case 0x1e: printf("%d\n", pull()); break;
             case 0x1f: {
                 uint8_t addr = pull();
                 for (; prog[pc]; pc++)
