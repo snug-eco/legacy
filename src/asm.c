@@ -272,6 +272,12 @@ void assemble(char* path, FILE* out)
 
 }
 
+void list_labels()
+{
+    for (int i = 0; i < pre_label_index; i++)
+        printf("%x: %s\n", pre_label_table[i].addr, pre_label_table[i].name);
+}
+
 
 
 int main(int argc, char** argv)
@@ -283,6 +289,8 @@ int main(int argc, char** argv)
     
     explore(path);
     assemble(path, out);
+
+    list_labels();
 
     fclose(out);
     return 0;
