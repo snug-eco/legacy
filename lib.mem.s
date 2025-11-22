@@ -1,4 +1,6 @@
 
+; memory manipulation.
+; in the likes of C.
 
 
 var _n
