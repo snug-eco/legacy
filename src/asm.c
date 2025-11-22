@@ -256,7 +256,7 @@ void assemble(char* path, FILE* out)
 
         else if (*t == 's')
         {
-            uint8_t inst = (t[1] << 8) + t[2];
+            uint8_t inst = (t[1] * 10) + t[2];
             fputc(inst | 0x80, out);
         }
 
