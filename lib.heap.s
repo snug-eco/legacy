@@ -113,6 +113,35 @@ lab heap/void
 
 
 
+; (*chunk -- len)
+lab heap/len
+    lit 1
+    sub
+    lda
+    lit 1
+    sub
+    ret
+
+var _ptr
+
+; (*original -- *copy)
+lab heap/copy
+    stv _ptr
+
+    ldv _ptr
+    jsr heap/len
+    jsr heap/new
+    dup
+    ldv _ptr
+    dup
+    jsr heap/len
+    jsr mem/cpy
+
+    ret
+
+
+
+
 
 
 
