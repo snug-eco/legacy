@@ -19,18 +19,15 @@ lab line
 lab line/loop
     inp
 
-    dup
-    dbg
-
     ; check enter
     dup
-    lit 10
+    lit 13
     equ
     jcn line/enter
 
     ; check backspace
     dup
-    lit 8
+    lit 127
     equ
     jcn line/backspace
 
@@ -61,13 +58,22 @@ lab line/backspace
     equ
     jcn line/loop
 
-    ;echo
+    ; key code don't care
+    pop
+    ; erase chracter
+    lit 8
     out
+    lit 32
+    out
+    ; backspace
+    lit 8
+    out
+
     ; preceed buffer
-    ldv _buf
+    ldv _n
     lit 1
     sub
-    stv _buf
+    stv _n
 
     jmp line/loop
 
