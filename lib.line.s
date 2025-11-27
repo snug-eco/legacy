@@ -35,9 +35,10 @@ lab line/loop
     ldv _limit
     ldv _n
     equ
-    jcn line/loop
+    jcn line/bound
 
     ;echo
+    dup
     out
     ; append to buffer
     ldv _buf
@@ -49,6 +50,10 @@ lab line/loop
     inc
     stv _n
 
+    jmp line/loop
+
+lab line/bound
+    pop
     jmp line/loop
 
 lab line/backspace
@@ -78,6 +83,13 @@ lab line/backspace
     jmp line/loop
 
 lab line/enter
+    ; key code don't care
+    pop
+    ; send lfcr
+    lit 10
+    out
+    lit 13
+    out
     ; write terminator
     lit 0
     ldv _buf
