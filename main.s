@@ -16,7 +16,7 @@ var _argument
 
 lab args-not-exist-error
     lit 0
-    str "[PANIC] Shell Error: args file does not exist."
+    str "[PANIC] shell error: args file does not exist."
     lit 0
     jsr string/print
     jsr string/newline
@@ -68,7 +68,7 @@ lab loop
 
     ; user interact 
     ldv _buffer
-    lit 80
+    lit 128
     jsr line
 
     ; parse exec
@@ -92,10 +92,6 @@ lab args-loop
     lit 0
     equ
     jcn args-done
-
-    ldv _argument
-    jsr string/print
-    jsr string/newline
 
     ;flag
     ldv _iter
@@ -135,9 +131,54 @@ lab arg-write-loop
 
 
 lab args-done
+    pop ;token walker
+
+    ; write args file terminator
+    ldv _iter
+    lit 0
+    s03 ;disk write
+
+    ; render exec file
+    ldv _exec
+    jsr string/len
+    jsr heap/new
+    
+    dup
+    str "bin."
+
+    dup
+    lit 4
+    add
+    ldv _exec
+    ldv _exec
+    jsr string/len
+    jsr mem/cpy
+
+    ; check exec file exists
+    dup
+    s04
+    lit 0
+    equ
+    jcn exec-not-found
+
+    brk
+
+lab exec-not-found
+    lit 0
+    dup
+    str "shell error: no such file "
+    jsr string/print
+    dup 
+    jsr string/print
+    jsr string/newline
+
+    jsr heap/void
+    jmp loop
 
 
-    ret
+
+
+
     
     
 
