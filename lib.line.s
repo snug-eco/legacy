@@ -31,6 +31,12 @@ lab line/loop
     equ
     jcn line/backspace
 
+    dup
+    lit 32
+    lth
+    jcn line/control
+
+
     ; check buffer bounds
     ldv _limit
     ldv _n
@@ -52,6 +58,11 @@ lab line/loop
 
     jmp line/loop
 
+;skip control characters
+lab line/control
+    pop
+    jmp line/loop
+
 lab line/bound
     pop
     jmp line/loop
@@ -66,7 +77,7 @@ lab line/backspace
     equ
     jcn line/loop
 
-    ; erase chracter
+    ; erase character
     lit 8
     out
     lit 32
