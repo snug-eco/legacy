@@ -155,6 +155,7 @@ lab args-done
     ldv _exec
     ldv _exec
     jsr string/len
+    inc ;termi
     jsr mem/cpy
 
     ; check exec file exists
@@ -196,7 +197,7 @@ lab idle-loop
 
     ; monitor term in
     inp
-    lit 27
+    lit 3 ;^C
     equ
     jcn kill
 
@@ -209,9 +210,9 @@ lab kill
 
 
 lab exec-not-found
-    lit 0
-    dup
+    ldv _buffer
     str "shell error: no such file "
+    ldv _buffer
     jsr string/print
 
     ldv _exec_name
