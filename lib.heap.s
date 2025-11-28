@@ -22,6 +22,14 @@ lab heap/set_origin
     ret
 
 
+var _heap_debug
+; ( -- )
+lab heap/debug
+    lit 1
+    stv _heap_debug
+    ret
+
+
 ; (size -- chunk*)
 lab heap/new
     ; the requested sized only refers to the content of the chunk.
@@ -96,12 +104,26 @@ lab heap/new/done
 
     ; chunk content address
     inc
+
+    ldv _heap_debug
+    jcn heap/new/debug
+    ret
+
+lab heap/new/debug
+    lit 78
+    out
+    dup
+    dbg
     ret
 
 
 
 ; (*chunk -- )
 lab heap/void
+    ldv _heap_debug
+    jcn heap/void/debug
+lab heap/void/continue
+
     lit 1
     sub
     dup
@@ -110,6 +132,13 @@ lab heap/void
     swp
     jsr mem/set
     ret
+
+lab heap/void/debug
+    lit 86
+    out
+    dup
+    dbg
+    jmp heap/void/continue
 
 
 
