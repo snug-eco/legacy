@@ -12,6 +12,8 @@ var _buffer
 var _iter
 var _exec
 var _argument
+var _exec_name
+var _pid
 
 
 lab args-not-exist-error
@@ -142,11 +144,12 @@ lab args-done
     ldv _exec
     jsr string/len
     jsr heap/new
+    stv _exec_name
     
-    dup
+    ldv _exec_name
     str "bin."
 
-    dup
+    ldv _exec_name
     lit 4
     add
     ldv _exec
@@ -155,23 +158,40 @@ lab args-done
     jsr mem/cpy
 
     ; check exec file exists
-    dup
+    ldv _exec_name
     s04
     lit 0
     equ
     jcn exec-not-found
 
+    ; launch process
+    lit 4
+    jsr heap/new
+
+    dup
+    ldv _exec_name
+    s05 ;file seek
+
+    dup
+    s11 ;process launch
+    stv _pid
+
+    jsr heap/void
+
     brk
+
 
 lab exec-not-found
     lit 0
     dup
     str "shell error: no such file "
     jsr string/print
-    dup 
+
+    ldv _exec_name
     jsr string/print
     jsr string/newline
 
+    ldv _exec_name
     jsr heap/void
     jmp loop
 
