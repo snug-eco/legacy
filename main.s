@@ -100,13 +100,15 @@ lab args-loop
     ;flag
     ldv _iter
     lit 1
+    s03 ;disk write
+    ldv _iter
+    jsr quad/inc
 
     ; length prefix
     ldv _iter
     ldv _argument
     jsr string/len
     s03 ;disk write
-
     ldv _iter
     jsr quad/inc
 
