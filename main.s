@@ -178,7 +178,32 @@ lab args-done
 
     jsr heap/void
 
-    brk
+lab idle-loop
+    ; check process running
+    ldv _pid
+    s13 ;process active?
+    lit 0
+    equ
+    jcn loop
+
+    ; check term in avail
+    s14
+    lit 0
+    equ
+    jcn idle-loop
+
+    ; monitor term in
+    inp
+    lit 27
+    equ
+    jcn kill
+
+    jmp idle-loop
+
+lab kill
+    ldv _pid
+    s12
+    jmp idle-loop
 
 
 lab exec-not-found
