@@ -135,7 +135,7 @@ lab arg-write-loop
     s03 ;disk write
     
     ldv _iter
-    jsr quad/inc
+    s16 ;quad/inc
 
     ldv _argument
     inc

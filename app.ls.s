@@ -61,7 +61,7 @@ lab print-name-loop
 
     ; inc ptr
     ldv _file
-    jsr quad/inc
+    s16 ; quad/inc
 
     ;again
     jmp print-name-loop
