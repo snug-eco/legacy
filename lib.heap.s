@@ -32,6 +32,8 @@ lab heap/debug
 
 ; (size -- chunk*)
 lab heap/new
+    lit 78
+    out
     ; the requested sized only refers to the content of the chunk.
     ; so the true size of the chunk is computed by adding one,
     ; for the size header.
@@ -110,7 +112,7 @@ lab heap/new/done
     ret
 
 lab heap/new/debug
-    lit 78
+    lit 33
     out
     dup
     dbg
