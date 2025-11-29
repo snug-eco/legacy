@@ -154,6 +154,8 @@ lab args-done
     ; render exec file
     ldv _exec
     jsr string/len
+    lit 5 ; +1 termi +4 name
+    add
     jsr heap/new
     stv _exec_name
     
@@ -183,6 +185,7 @@ lab args-done
     dup
     ldv _exec_name
     s05 ;file seek
+
 
     dup
     s11 ;process launch
