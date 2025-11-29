@@ -9,6 +9,7 @@ use lib.string.s
 use lib.line.s
 
 var _buffer
+var _file
 var _iter
 var _exec
 var _argument
@@ -51,17 +52,27 @@ lab main
 
     lit 4
     jsr heap/new
-    stv _iter
+    stv _file
 
-    ldv _iter
+    ldv _file
     ldv _buffer
     s05 ;seek file
 
-    ldv _iter
+    ldv _file
     s06 ;open file iterator
+
+    lit 4
+    jsr heap/new
+    stv _iter
 
 
 lab loop
+    ; reset args iterator
+    ldv _iter
+    ldv _file
+    lit 4
+    jsr mem/cpy
+
     ; prompt
     lit 62
     out
