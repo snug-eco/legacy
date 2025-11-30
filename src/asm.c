@@ -212,6 +212,8 @@ void assemble(char* path, FILE* out)
     line_no = 0;
     FILE* f = fopen(path, "r");
 
+    uint32_t line_no_local;
+
     char* t;
     while ((t = tok(f)))
     {
@@ -275,9 +277,13 @@ void assemble(char* path, FILE* out)
         }
         else if (!strcmp(t, "use"))
         {
+            line_no_local = line_no;
+
             char buf[128];
             sprintf(buf, "lib/%s", tok(f));
             assemble(buf, out);
+
+            line_no = line_no_local;
         }
 
         else
