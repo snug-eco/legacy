@@ -9,6 +9,16 @@ var _n
 
 
 ; (buf* limit)
+lab line-resume
+    stv _limit
+    stv _buf
+
+    ldv _buf
+    jsr string/print
+
+    jmp line/loop
+
+; (buf* limit)
 lab line
     stv _limit
     stv _buf
