@@ -7,6 +7,8 @@ use lib.quad.s
 use lib.heap.s
 use lib.string.s
 use lib.args.s
+use lib.line.s
+use lib.disk.s
 
 var _filename
 var _buffer
@@ -14,8 +16,11 @@ var _iter
 var _ptr
 var _cursor
 var _content
+var _content_len
 var _n
 var _file
+var _line
+var _tmp
 
 
 lab main
@@ -53,9 +58,16 @@ lab main
     stv _cursor
  
 lab loop
-    ; read input
-    lit 36
+    ; prompt
+    ldv _cursor
+    jsr string/from-int
+    dup
+    jsr string/print
+    jsr heap/void
+    lit 32
     out
+
+    ; read input
     ldv _buffer
     lit 80
     jsr line
@@ -83,28 +95,28 @@ lab loop
     jcn command-insert
 
     ; delete
-    dup
-    lit 100
-    equ
-    jcn command-delete
+    ;dup
+    ;lit 100 ;d
+    ;equ
+    ;jcn command-delete
 
     ; change
-    dup
-    lit 99
-    equ
-    jcn command-change
+    ;dup
+    ;lit 99 ;c
+    ;equ
+    ;jcn command-change
 
     ; enumerate
-    dup
-    lit 110
-    equ
-    jcn command-enum
+    ;dup
+    ;lit 110 ;n
+    ;equ
+    ;jcn command-enum
 
     ; print line
-    dup
-    lit 112
-    equ
-    jcn command-print
+    ;dup
+    ;lit 112 ;p
+    ;equ
+    ;jcn command-print
 
     pop
     jmp loop
@@ -112,6 +124,14 @@ lab loop
 
 lab command-quit
     brk
+
+lab command-goto
+    ldv _buffer
+    lit 2
+    add
+    jsr string/to-int
+    ldv _cursor
+    jmp loop
 
 
 lab command-insert
@@ -124,11 +144,8 @@ lab command-insert
     ; grab line
     ldv _cursor
     jsr seek-line
+    stv _line
 
-    ;get remaining file content size
-    ldv _cursor
-    jsr remaining-size
-    
     ; compute content buffer
     ldv _buffer
     lit 2
@@ -139,22 +156,44 @@ lab command-insert
     ldv _content
     jsr string/len
     inc ; linefeed
-    stv _n
+    stv _content_len
 
+    ; compute line target
+    ; meaning, the base address of the line after rcopy
+        lit 4
+        jsr heap/new
+        stv _ptr
 
+        ;copy
+        ldv _ptr
+        ldv _line
+        lit 4
+        jsr mem/cpy
 
+        ;advance by line length
+        ldv _ptr
+        ldv _content_len
+        s18
 
+    ldv _ptr
+    ldv _line
+        ;get remaining file content size
+        ldv _line
+        jsr disk/file-len
+    jsr disk/rcopy
 
+    
+    ;insert content
+    ldv _line
+    ldv _content
+    ldv _content_len
+    jsr disk/write
 
+    jmp loop
 
 
 
     
-; ( *addr -- size)
-; given a pointer into a file,
-; computes the size of remaining
-; content in the file from the pointer onwards.
-lab remaining-size
 
 
 ; ( n -- *ptr )
