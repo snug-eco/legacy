@@ -130,7 +130,7 @@ lab command-goto
     lit 2
     add
     jsr string/to-int
-    ldv _cursor
+    stv _cursor
     jmp loop
 
 
