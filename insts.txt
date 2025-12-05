@@ -65,7 +65,6 @@
 0x90 S16 addr* -- (quad/inc)
 0x91 S17 a* b* -- bool (quad/compare)
 0x92 S18 addr* offset -- (quad/advance)
-
-
+0x93 S19 addr* -- (quad/dec)
 
 
