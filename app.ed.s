@@ -194,21 +194,9 @@ lab command-insert
         ldv _content_len
         s18
 
-    ldv _file_end
-    jsr quad/print
-    ldv _target_end
-    jsr quad/print
-    brk
-
     ; reverse copy _file_end ptr to _target_end ptr.
     ; thus moving the file content after _line back by _content_len
 lab command-insert/rcopy
-    ; check bound
-    ldv _file_end
-    ldv _line
-    s17 ;quad/compare
-    jcn command-insert/rdone
-
     ;copy
     ldv _file_end
     s02 ;sd_read
@@ -216,6 +204,12 @@ lab command-insert/rcopy
     ldv _target_end
     swp
     s03
+
+    ; check bound
+    ldv _file_end
+    ldv _line
+    s17 ;quad/compare
+    jcn command-insert/rdone
 
     ;inc
     ldv _file_end
