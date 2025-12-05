@@ -63,6 +63,19 @@ lab main
     stv _cursor
  
 lab loop
+    ; clear buffer
+    lit 0
+    ldv _buffer
+    sta
+
+lab loop-no-buffer-clear
+    ; make sure start of paramater is terminated
+    lit 0 
+    ldv _buffer
+    lit 2
+    add
+    sta
+
     ; prompt
     lit 64
     out
@@ -77,7 +90,7 @@ lab loop
     ; read input
     ldv _buffer
     lit 80
-    jsr line
+    jsr line-resume
 
     ; first character
     ldv _buffer
@@ -236,7 +249,8 @@ lab command-insert/rdone
     ldv _target_end
     jsr heap/void
 
-    jmp loop
+    ; setup buffer for another insertion
+    jmp loop-no-buffer-clear
 
 
 lab command-enum
