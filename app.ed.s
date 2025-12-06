@@ -80,10 +80,7 @@ lab loop-no-buffer-clear
     lit 64
     out
     ldv _cursor
-    jsr string/from-int
-    dup
-    jsr string/print
-    jsr heap/void
+    jsr string/print-int
     lit 32
     out
 
@@ -348,10 +345,7 @@ lab command-enum/line-loop
     stv _line_no
 
     ;print line no
-    jsr string/from-int
-    dup
-    jsr string/print
-    jsr heap/void
+    jsr string/print-int
     lit 32
     out
 
