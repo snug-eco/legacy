@@ -115,10 +115,10 @@ lab loop-no-buffer-clear
     jcn command-insert
 
     ; delete
-    ;dup
-    ;lit 100 ;d
-    ;equ
-    ;jcn command-delete
+    dup
+    lit 100 ;d
+    equ
+    jcn command-delete
 
     ; change
     ;dup
@@ -253,6 +253,70 @@ lab command-insert/rdone
     jmp loop-no-buffer-clear
 
 
+
+
+
+lab command-delete
+    ; grab line
+    ldv _cursor
+    jsr seek-line
+    stv _line
+
+    ; get end of file content
+    ldv _line
+    jsr seek-file-content-end
+    stv _file_end
+
+    ; origin address 
+    lit 4
+    jsr heap/new
+    dup
+    stv _ptr
+    ldv _line
+    lit 4
+    jsr mem/cpy
+
+    ldv _ptr
+    jsr next-line
+
+
+lab command-delete/loop
+    ; copy from _ptr to _line
+    ldv _ptr
+    s02
+    ldv _line
+    swp
+    s03
+
+    ; bounds.
+    ; bounds check has to happen after copy,
+    ; to ensure valid terminator.
+    ldv _ptr
+    ldv _file_end
+    s17
+    jcn command-delete/done
+
+    ; inc
+    ldv _ptr
+    s16
+    ldv _line
+    s16
+
+    jmp command-delete/loop
+lab command-delete/done
+    ldv _ptr
+    jsr heap/void
+    jmp loop
+    
+
+
+
+
+
+
+
+
+
 lab command-enum
     lit 4
     jsr heap/new
@@ -311,9 +375,11 @@ lab command-enum/char-loop
 
 lab command-enum/done
     jsr string/newline
+    jsr string/newline
 
     ldv _tmp
     jsr heap/void
+
 
     jmp loop
 
