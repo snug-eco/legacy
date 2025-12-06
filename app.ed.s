@@ -257,6 +257,12 @@ lab command-insert/rdone
 
 
 lab command-delete
+    ; cursor bounds check
+    ldv _cursor
+    lit 0
+    equ
+    jcn loop
+
     ; grab line
     ldv _cursor
     jsr seek-line
