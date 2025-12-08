@@ -67,4 +67,9 @@
 0x92 S18 addr* offset -- (quad/advance)
 0x93 S19 addr* -- (quad/dec)
 
+0xa0 S32 DDRC  -- (write port c ddr)
+0xa1 S33 PORTC -- (write port c)
+0xa2 S34 -- PORTC (read  port c)
+
+
 
