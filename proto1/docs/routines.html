@@ -1,0 +1,27 @@
+<html>
+
+
+    <body>
+        <h1>Routines</h1>
+        <p>Routines are like c-functions, predefined paramters & stack management</p>
+
+        <h2>Parameter Interface</h2>
+        <p>
+            Passing call parameter to a routines is done by the caller-routines allocating so called paramater space in it's own scope.
+            The callee then indexes into this parameter space negatively relative to it's own base pointer.
+            The in-parameter come before the out-parameters.
+        </p>
+
+        <pre>
+-----------------+----------+-----------+-------------+---------------+-----------------
+... Caller-Scope | In-Param | Out-Param | Call-Header | Callee-Locals | Callee-Scope ...
+-----------------+----------+-----------+-------------+---------------+-----------------
+        </pre>
+
+        <p>
+            The call-header contains return address and caller base pointer.
+            Its is managed by the VM.
+        </p>
+
+    </body>
+</html>

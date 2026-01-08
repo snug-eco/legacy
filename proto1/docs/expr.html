@@ -1,0 +1,21 @@
+
+<html>
+    <body>
+        <h1>Expressions</h1>
+        <pre style="font-size: 150%">
+            The parsing and emittance of expressions is handled by the "expr" namespace.
+            It implements a standard recursive-descent grammar and does not respect operator presidents.
+            Emitting such an expression, using the "generate" generic, will obligate the implementation
+            to, at runtime, put the result of it's evaluation into the "acc" register.
+
+            The callers of "expr.generate" are obligated to interface with this in a meaningful manner.
+            By doing so, the number of redundantly emitted and later optimized out instructions
+            can be reduced and the resulting binary be made more humanly readable.
+        </pre>
+
+
+    </body>
+</html>
+
+
+

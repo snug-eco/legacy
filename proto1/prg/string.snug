@@ -1,0 +1,10 @@
+
+use 'lib/string.snug';
+
+rout main
+{
+    sub print (
+        block ~ 'hello world\n',
+    );
+
+}

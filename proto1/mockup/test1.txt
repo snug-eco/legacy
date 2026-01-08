@@ -1,0 +1,27 @@
+
+
+module Tree
+{
+    type Tree::Node
+    {
+        Int num;
+        Bool leaf;
+        Tree::Node left;
+        Tree::Node right;
+    }
+
+
+    func Tree::Max
+        (Tree::Node n) => (Int max)
+    {
+        max = n.num;
+
+        return ~ n.leaf;
+
+        push n.left;  Tree::Max;
+        push n.right; Tree::Max;
+        Math::Max;
+        pull max;
+    }
+
+}

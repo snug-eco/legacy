@@ -1,0 +1,25 @@
+
+
+
+
+rout test
+(
+    in a;
+    out b;
+)
+{
+    put b = a + 1;
+}
+
+
+
+rout main
+{
+    sub test
+    (
+        a ~ 5,
+        b ~ _,
+    );
+
+    debug _;
+}

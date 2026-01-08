@@ -1,0 +1,53 @@
+
+rout Math::Mul
+(
+    in a; in b; out c;
+)
+{
+    put c = 0;
+
+    lab loop;
+        jump done ~ a == 0;
+
+        put c = c + b;
+        put a = a - 1;
+
+        jump loop;
+    lab done;
+}
+
+
+
+"(Int a) => (Int !a)
+rout Math::Fac
+(
+    in n; out res;
+)
+{
+    put res = 1;
+
+    "base case
+    jump return ~ n == 0;
+
+    put tmp = 0;
+    sub Math::Fac ( n ~ n - 1, res ~ tmp   );
+    sub Math::Mul ( a ~ n    , b   ~ tmp, c ~ res);
+
+    lab return;
+}
+
+
+
+rout main
+{
+    sub Math::Fac
+    (
+        n   ~ 5, 
+        res ~ _
+    );
+
+    debug _;
+}
+
+
+

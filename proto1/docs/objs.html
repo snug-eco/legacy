@@ -1,0 +1,29 @@
+<html>
+    <body>
+        <h1> Objs </h1>
+        <p>
+            Objs (Objects) in the compiler are the semantic units of which the language is made up of.
+            <br>
+            They are registered under compiler/objs.py, 
+            are read by the tree.parse head using hasattr/getattr,
+            and are therefore dynamic.
+            <br>
+        </p>
+
+        <h2>Interface</h2>
+        <p>
+            All classes under objs.py oblige themself to implement at least 2 and at most 3 methods.
+        </p>
+
+        <h3>Necessary</h3>
+        <pre> 
+            parse   (self: type(self), stream: streamer)                -> type(self)
+            generate(self: type(self), output: output, ctx: _rout._ctx) -> void
+        </pre>
+
+        <h3>Optional</h3>
+        <pre>
+            infer   (self: type(self), ctx: _rout._ctx) -> void
+        </pre>
+    </body>
+</html>

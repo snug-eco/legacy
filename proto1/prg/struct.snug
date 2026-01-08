@@ -1,0 +1,28 @@
+
+
+seq Type
+{
+    Add,
+    Sub,
+    Const,
+}
+
+
+seq Node 
+{
+    Kind,
+    Content,
+    Left,
+    Right,
+}
+
+rout main
+{
+
+    trans Node ~ node;
+
+    put node.Node::Kind = Type::Const;
+    put node.Node::Content = 10;
+
+    debug node.Node::Content;
+}

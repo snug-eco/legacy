@@ -1,0 +1,45 @@
+<html>
+    <body>
+        <h1>The Heap</h1>
+        <pre>
+            The heap is managed by the VM and located in the upper half of memory, above the stack.
+            It is composed of so called 'blocks', which contain the size of the block along the actual data.
+            Ergo, when allocating N words, the block containing these words, will have the size N+1.
+        </pre>
+        <h2>Block Format</h2>
+        <p>The following is a diagram of the heap block format:</p>
+        <pre>
+                +------+--------------+-------+       +------+--------------+-------+
+            ... | Size | ... Data ... | After |  ...  | Size | ... Data ... | After | ...
+                +------+--------------+---^---+       +------+--------------+---^---+
+                   |                      |              |                      |
+                   \----------------------/              \----------------------/
+        </pre>
+
+        <h2>Heap Manager</h2>
+        <h3>Allocation</h3>
+        <pre>
+            The heap manager runs a trial. 
+            This trial works by counting down from the size of the needed block to zero. 
+            While counting down, a walker is iterating through memory. 
+            If the walker hits a block, the block is skipped 
+            (the walker is moved forward by the size of the block)
+            and the trial restarts. 
+            Once the trial succeeds a block of the correct size is found.
+            
+            ! Disclaimer ! 
+            I am aware, that this allocation algorithm has a very bad run-time complexity. 
+            But i accepts this, due to it's extreme ease of implementation.
+        </pre>
+
+        <h3>Deallocation</h3>
+        <pre>
+            Trivially, size and base location of the block to be deallocated are known.
+            The entire block is simply zero'd out.
+
+            ! Disclaimer !
+            Yet again, i am aware, that this algorithm has a very bad run-time complexity.
+        </pre>
+
+    </body>
+</html>

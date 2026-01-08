@@ -1,0 +1,55 @@
+
+
+rout Mem::cpy (
+    in dst;
+    in src;
+    in len;
+){
+    count i ~ 0 .. len
+    {
+        put dst.i = src.i;
+    }
+}
+
+
+rout Mem::set (
+    in dst;
+    in ch;
+    in len;
+){
+    count i ~ 0 .. len
+    {
+        put dst.i = ch;
+    }
+}
+
+
+rout Mem::chr (
+    in base;
+    in ch;
+    in len;
+    out ptr;
+){
+    count i ~ 0 .. len
+    {
+        jump found ~ base.i == ch; 
+    }
+    lab found;
+    put ptr = base + i;
+}
+
+
+rout Mem::cmp (
+    in lhs;
+    in rhs;
+    in len;
+    out diff;
+){
+    count i ~ 0 .. len
+    {
+        jump done ~
+            rhs.i != lhs.i;
+    }
+    lab done;
+    put diff = rhs.i - lhs.i;
+}

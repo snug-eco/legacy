@@ -1,0 +1,45 @@
+
+
+-lang core
+    -libs
+        -stack /
+        -arena
+
+        -maybe
+        -status
+
+    -pre/post add/sub /
+        -deep inference for expressions
+
+    -phase out write/read
+    -backend
+
+    -rework loops
+        -cause they're horrible
+
+    (
+        -default values
+
+        -module shorthand
+            -maybe
+
+        -maybe weak inferred type-system
+    )
+
+    -loops /
+        -iter  /
+        -enum  /
+        -count /
+
+
+    -potential
+        -memory stuff /
+            -trans / (transient, stack objects)
+            -pers  / (persistent, heap  objects)
+            -void  / (freeing persistent object)
+
+-execution model
+    -optimizations
+    -bytecode
+
+

@@ -1,0 +1,137 @@
+
+"this is my bf (interpreter) OwO
+use 'lib/block.snug';
+use 'lib/stack.snug';
+
+seq Env
+{
+    Prog,
+    Map,
+    Tape,
+    ProgLen,
+    TapeHead,
+    ProgHead,
+}
+
+
+rout scan(
+    in env;
+){
+
+    "build loop map
+    trans env.Env::ProgLen ~ env.Env::Map;
+    sub Block::zero(block ~ env.Env::Map);
+
+    sub Stack::new(size ~ 128, stack);
+    defer sub Stack::void(stack);
+
+    enum cmd @ index ~ env.Env::Prog
+    {
+        jump open ~ cmd == `[;
+        jump close ~ cmd == `];
+        lab continue; 
+    }
+    jump done;
+
+
+    lab open;
+        "push index
+        sub Stack::push(stack, value ~ index, status ~ _);
+        jump continue;
+
+    lab close;
+        "pull other index
+        sub Stack::pull(stack, value ~ other, status ~ _);
+        
+        "link
+        put (env.Env::Map).index = other;
+        put (env.Env::Map).other = index;
+        jump continue;
+
+    lab done; 
+
+}
+
+rout normalize(
+    in env;
+){
+    put rawTapePtr = (env.Env::Tape)+(env.Env::TapeHead);
+    put rawTapePtr.0 = rawTapePtr.0 & 255;
+}
+
+
+
+rout run(
+    in env;
+){
+    "update program length
+    sub Block::len(
+        block ~ env.Env::Prog,
+        len   ~ env.Env::ProgLen,
+    );
+
+
+    "build map
+    sub scan(env);
+
+    put env.Env::ProgHead = (0 - 1);
+    put env.Env::TapeHead = 0;
+
+    lab loop;
+        put env.Env::ProgHead += 1;
+
+        jump done ~ env.Env::ProgHead >= env.Env::ProgLen;
+        put cmd = (env.Env::Prog).(env.Env::ProgHead);
+
+        jump add   ~ cmd == `+;
+        jump sub   ~ cmd == `-;
+        jump left  ~ cmd == `<;
+        jump right ~ cmd == `>;
+        jump open  ~ cmd == `[;
+        jump close ~ cmd == `];
+        jump out   ~ cmd == `.;
+        jump loop;
+
+        lab add;   put (env.Env::Tape).(env.Env::TapeHead) += 1; sub normalize(env); jump loop;
+        lab sub;   put (env.Env::Tape).(env.Env::TapeHead) -= 1; sub normalize(env); jump loop;
+        lab left;  put env.Env::TapeHead -= 1;              jump loop;
+        lab right; put env.Env::TapeHead += 1;              jump loop;
+
+        lab open;
+            jump loop ~ (env.Env::Tape).(env.Env::TapeHead) != 0;
+            put env.Env::ProgHead = (env.Env::Map).(env.Env::ProgHead);
+            jump loop;
+
+        lab close;
+            jump loop ~ (env.Env::Tape).(env.Env::TapeHead) == 0;
+            put env.Env::ProgHead = (env.Env::Map).(env.Env::ProgHead);
+            jump loop;
+
+        lab out;
+            write (env.Env::Tape).(env.Env::TapeHead);
+            jump loop;
+
+
+    lab done;
+}
+
+
+
+
+
+
+rout main
+{
+    trans Env ~ env;
+
+    put env.Env::Prog = '++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.';
+    debug 'program: {`env.Env::Prog}';
+
+    trans 2048 ~ env.Env::Tape;
+    sub Block::zero(block ~ env.Env::Tape);
+
+    sub run(env);
+}
+
+
+

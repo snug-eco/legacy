@@ -1,0 +1,130 @@
+
+use 'lib/lex.snug';
+
+seq Expr::Type
+{
+    Number,
+    Add,
+    Sub
+}
+
+seq Expr::Node
+{
+    Left,
+    Right,
+    Content,
+    Type
+}
+
+
+
+rout Expr::Parse::main (
+    in source;
+    out root;
+){
+    sub Lex::tokenize(source, stream);
+    
+    sub Expr::Parse::expr(
+        stream,
+        node ~ root,
+    );
+}
+
+
+rout Expr::Parse::expr (
+    in stream;
+    out node;
+){
+    sub Expr::Parse::term(stream, node ~ left);
+    sub Lex::peekContent (stream, content); 
+    
+    jump plus  ~ content.0 == `+;
+    jump minus ~ content.0 == `-;
+    
+        put node = left;
+        jump done;
+
+    lab plus;  put op = Expr::Type::Add; jump continue;
+    lab minus; put op = Expr::Type::Sub; jump continue;
+
+    lab continue;
+        sub Lex::advance(stream);
+
+        sub Expr::Parse::expr(stream, node ~ right);
+        
+        pers Expr::Node ~ node;
+        put node.Expr::Node::Type = op;
+        put node.Expr::Node::Right = right;
+        put node.Expr::Node::Left  = left;
+    
+    lab done;
+}
+
+
+rout Expr::Parse::term (
+    in stream;
+    out node;
+){
+    sub Lex::peekContent(stream, content);
+    put char = content.0;
+
+    jump bracket ~ char == `(;
+    jump number  ~ char != `(;
+    jump done;
+
+    lab number;
+        sub Lex::popContent(stream, content ~ number);
+        sub Str::toInt(block ~ number, int ~ int);
+
+        pers Expr::Node ~ node;
+        put node.Expr::Node::Content = int;
+        put node.Expr::Node::Type = Expr::Type::Number;
+        jump done;
+        
+    lab bracket;
+        "this is a danger-loving parser and therefore does not validate the presents of the correct token
+        "(in the case for the opening and closing brackets)
+
+        sub Lex::advance     (stream);
+        sub Expr::Parse::expr(stream, node);
+        sub Lex::advance     (stream);
+        jump done;
+
+
+    lab done;
+}
+
+
+
+
+
+rout Expr::eval (
+    in node;
+    out val;
+){
+    put type = node.Expr::Node::Type;
+
+    jump num ~ type == Expr::Type::Number;
+
+    sub Expr::eval ( node ~ node.Expr::Node::Left , val ~ left );
+    sub Expr::eval ( node ~ node.Expr::Node::Right, val ~ right);
+
+    jump add ~ type == Expr::Type::Add;
+    jump sub ~ type == Expr::Type::Sub;
+    jump done;
+    
+    lab num;
+        put val = node.Expr::Node::Content;
+        jump done;
+
+    lab add;
+        put val = left + right;
+        jump done;
+
+    lab sub;
+        put val = left - right;
+        jump done;
+
+
+    lab done;
+}

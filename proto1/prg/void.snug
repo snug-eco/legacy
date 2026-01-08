@@ -1,0 +1,35 @@
+
+
+
+
+rout main
+{
+    pers 3 ~ a;
+    pers 4 ~ b;
+
+    "these should be in order
+    debug a;
+    debug b;
+
+    void a;
+
+    pers 2 ~ a;
+    pers 2 ~ c;
+
+    "these should be in order too
+    debug a;
+    debug b;
+    debug c;
+
+    void a;
+    void c;
+
+    pers 1 ~ a;
+    pers 1 ~ A;
+
+    "these should be in order as well
+    debug a;
+    debug A;
+    debug b;
+
+}

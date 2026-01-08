@@ -1,0 +1,75 @@
+
+
+
+
+
+seq Stack
+{
+    Block,
+    Index,
+    Size,
+}
+
+seq Stack::Status
+{
+    Ok,
+    Overflow,
+    Underflow,
+}
+
+rout Stack::new(
+    in size;
+    out stack;
+){
+    pers Stack ~ stack;
+    pers size ~ stack.Stack::Block;
+
+    put stack.Stack::Index = 0;
+    put stack.Stack::Size = size;
+}
+
+rout Stack::void(
+    in stack;
+){
+    void stack.Stack::Block;
+    void stack;
+}
+
+rout Stack::reset(
+    in stack;
+){
+    put stack.Stack::Index = 0; 
+}
+
+rout Stack::push(
+    in stack;
+    in value;
+    out status;
+){
+    put status = Stack::Status::Overflow;
+    jump overflow ~ stack.Stack::Index >= stack.Stack::Size;
+        
+    put (stack.Stack::Block).(stack.Stack::Index) = value;
+    put stack.Stack::Index = stack.Stack::Index + 1;
+
+    put status = Stack::Status::Ok;
+    lab overflow;
+}
+
+
+rout Stack::pull(
+    in stack;
+    out value;
+    out status;
+){
+    put status = Stack::Status::Underflow;
+    jump underflow ~ stack.Stack::Index == 0;
+        
+    put stack.Stack::Index = stack.Stack::Index - 1;
+    put value = (stack.Stack::Block).(stack.Stack::Index);
+
+    put status = Stack::Status::Ok;
+    lab underflow;
+}
+
+

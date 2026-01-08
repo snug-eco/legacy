@@ -1,0 +1,14 @@
+
+
+
+
+rout main
+{
+    put a = 2;
+    put b = 3;
+    debug a + b;
+}
+
+
+
+

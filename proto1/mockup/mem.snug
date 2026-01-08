@@ -1,0 +1,46 @@
+
+
+
+seq Type
+{
+    add, sub
+}
+
+seq Node
+{
+    type,
+    prev,
+    next,
+    sub,
+    content
+}
+
+
+rout main
+{
+    pers Node n;
+    put n.Node::Type = Type::Add;
+
+    
+    pers 10 array;
+    put array.0 = 2;
+    put array.1 = 3;
+    put array.2 = 5;
+    put array.3 = 7;
+    
+    "a.b = *(a+b) = a[b]
+    "the dot operator can access field using seqs
+
+    put i = 0;
+    lab loop;
+        put value = array.i;
+        put i = i + 1;
+        debug value;
+    jump loop;
+
+    "notice: no freeing
+    "objects get automatically deallocated at the end of the scope they're declared in!
+
+}
+
+

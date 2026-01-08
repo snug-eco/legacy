@@ -1,0 +1,35 @@
+
+
+
+
+rout mul
+(
+    in a;
+    in b;
+    out c;
+)
+{
+    put c = 0;
+    lab loop;
+        jump done ~ a == 0;
+
+        put c = c + b;
+        put a = a - 1;
+
+        jump loop;
+    lab done;
+}
+
+
+rout main
+{
+    sub mul
+    (
+        a ~ 3,
+        b ~ 7,
+        c ~ _
+    );
+    
+    debug _;
+}
+

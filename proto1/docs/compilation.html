@@ -1,0 +1,173 @@
+<html>
+    <head>
+        <style>
+div {
+    border: 1px solid black;
+    border-radius: 5px;
+    width: min-content;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+        </style>
+    </head>
+    <body>
+        <h1>Compilation</h1>
+        <pre>
+            Compilation is broken down into multiple passes,
+            as is common compiler etiquette.
+            Lexing is done via a state-machine tokenizer.
+            Grammar is done by a recursive-descent parser.
+        </pre>
+        <br>
+        <br>
+
+        <h2>Concepts</h2>
+
+        <div>
+            <h3>Objs</h3>
+            <pre>
+            Objs (short for Objects),
+            are semantic features, which the compiler treats as units.
+            They share common interfaces. See <a href="objs.html">Objs Doc</a>.
+            </pre>
+        </div>
+
+        <div>
+            <h3>Trees</h3>
+            <pre>
+            Tree (unlike in git),
+            are scope containers and bundle together objs, which share a namespace,
+            as well as other scoped members, such as (scope native) global constants.
+            A module is a tree, a routines is tree, a program is a tree.
+            </pre>
+        </div>
+
+        <div>
+            <h3>Root Tree</h3>
+            <pre>
+            The root tree is the tree, that contains all of the substance to be compiled.
+            Usually that is the full program, with all imports expanded.
+            </pre>
+        </div>
+        <br>
+        <br>
+
+
+        <h2>Passes</h2>
+
+        <div>
+        <h3>Preparation</h3>
+        <pre>
+            The preparation is the most complicated pass
+            and is divided into phases, that may be run recursively.
+            The aim of this pass is to prepare the root tree.
+        </pre>
+
+        <div>
+            <h4>Lexing</h4>
+            <pre>
+            The lexing phase takes a path to a source file,
+            reads it into memory, then tokenizes it.
+            It constructs a streamer, which will deliver the tokens to the parser.
+            </pre>
+        </div>
+        <div>
+            <h4>Parsing</h4>
+            <pre>
+            Parsing reads the stream and invokes the matching parse inferfaces,
+            per recognized object. During this process, the trees are built up,
+            merely as skeletons, containing only leaf data.
+            </pre>
+        </div>
+        <div>
+            <h4>Constant Rendering</h4>
+            <pre>
+            Global and scope local constants are rendered for all trees.
+            </pre>
+        </div>
+        <div>
+            <h4>Expansion</h4>
+            <pre>
+            Imported modules are resolved and are recursively prepared.
+            They are merged into the tree from which they are referenced.
+            </pre>
+        </div>
+        </div>
+
+        <div>
+        <h3>Generation</h3>
+        <pre>
+            In this pass, the actual conversion to the execution layer happens.
+            Again, this pass is complicated as has multiple phases.
+        </pre>
+        <div>
+            <h4>Collection</h4>
+            <pre>
+            This phase runs in the root tree,
+            where all the dependencies of the main routines are collected and recursively generated.
+            This is done to ensure that the super routines can link correctly with the sub routines.
+            </pre>
+        </div>
+        <div>
+            <h4>Binding</h4>
+            <pre>
+            This is where the routines bind to their parameter interfaces.
+            Variables are injected, for the parameters, into the variable mapper of the local compilation context.
+            They are defined by the offsets from the base pointer and are computed by order.
+            </pre>
+        </div>
+        <div>
+            <h4>Inference</h4>
+            <pre>
+            Here, variable are inferred from the expressions present in routines.
+            This is done by invoking the "infer" interface on objs.
+            Obviously, this step must come after the binding phase.
+            </pre>
+        </div>
+        <div>
+            <h4>Scope construction</h4>
+            <pre>
+            Space on the stack is reserved for the local variables.
+            </pre>
+        </div>
+        <div>
+            <h4>Branch generation</h4>
+            <pre>
+            The branches of the tree are generated in sequence.
+            The is done by invoking the "generate" interface on objs.
+            </pre>
+        </div>
+        <div>
+            <h4>Scope deconstruction</h4>
+            <pre>
+            Space on the stack is collapsed where the local variables are.
+            </pre>
+        </div>
+        </div>
+
+        <div>
+            <h3>Optimization</h3>
+            <pre style="color: gray;">Compiler not mature for optimizations yet.</pre>
+        </div>
+
+        <div>
+            <h3>Assembly</h3>
+            <pre>
+                The generated Ir has it's definitions and references resolved.
+                A call-hook for the main routine is prepended to the executable.
+            </pre>
+        </div>
+
+
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+    </body>
+</html>

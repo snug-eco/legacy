@@ -1,0 +1,30 @@
+
+
+
+rout main
+{
+    put _ = 0;
+    sub add
+    (
+        a ~ 2,
+        b ~ 3,
+        sum ~ _,
+    );
+
+    debug _;
+}
+
+
+
+
+rout add
+(
+    in a;
+    in b;
+    out sum;
+)
+{
+    put sum = a + b;
+}
+
+

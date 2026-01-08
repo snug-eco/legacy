@@ -1,0 +1,24 @@
+
+
+
+rout a (in i;)
+{
+    debug i;
+    jump ~ i >= 10;
+        sub b(i ~ i);
+    lab;
+}
+
+rout b (in i;)
+{
+    sub a(i ~ i + 1);
+}
+
+
+
+
+rout main
+{
+    sub a (i ~ 0); 
+}
+

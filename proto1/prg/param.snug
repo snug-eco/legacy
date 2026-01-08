@@ -1,0 +1,27 @@
+
+
+
+rout add2 ( in base; out mod; )
+{
+    put mod = base + 2;
+}
+
+
+rout print ( in n; )
+{
+    debug n;
+}
+
+
+rout main
+{
+    put x = 0;
+
+    sub print ( n    ~ x );
+    sub add2  ( base ~ x, mod ~ x );
+    sub print ( n    ~ x );
+}
+
+
+
+

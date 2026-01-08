@@ -1,0 +1,11 @@
+
+
+
+rout main
+{
+    put i = 0;
+    lab loop;
+        put i = i + 1;
+        debug i;
+    jump loop;
+}

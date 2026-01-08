@@ -1,0 +1,32 @@
+
+
+
+rout main
+{
+    put count = 10;
+    put sizeContent  = 3;
+    put size = sizeContent + 1;
+
+    trans count ~ container;
+
+    put i = 0;
+    lab allocate;
+        pers sizeContent ~ container.i;
+        put i = i + 1;
+    jump allocate ~ i < count;
+
+
+    put i = 0;
+    lab read;
+        debug container.i;
+        put i = i + 1;
+    jump read ~ i < count;
+
+    put base = container.0;
+
+    put i = 0;
+    lab dump;
+        debug base.i;
+        put i = i + 1;
+    jump dump ~ i < (count * size);
+}

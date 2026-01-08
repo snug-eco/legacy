@@ -1,0 +1,65 @@
+
+
+rout Block::len ( 
+    in  block; 
+    out len;
+){
+    put len = block.(0-1) - 1;
+}
+
+
+rout Block::sum (
+    in block;
+    out sum;
+){
+    put sum = 0;
+
+    iter x ~ block
+    {
+        put sum = sum + x;
+    }
+}
+
+
+rout Block::range (
+    in block;
+    in offset;
+    in len;
+    in first;
+){
+    count i ~ 0 .. len
+    {
+        put block.(offset + i) = (first + i);
+    }
+}
+
+
+rout Block::iota (
+    in block;
+){
+    enum x @ i ~ block
+    {
+        put block.i = i;
+    }
+}
+
+
+
+rout Block::debug (
+    in block;
+){
+    iter x ~ block
+    {
+        debug x;
+    }
+}
+
+rout Block::zero (
+    in block;
+){
+    enum _ @ i ~ block
+    {
+        put block.i = 0;
+    }
+}
+

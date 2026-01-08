@@ -1,0 +1,155 @@
+
+use 'lib/str.snug';
+use 'lib/mem.snug';
+
+seq Lex::Type
+{
+    Space,
+    Alpha,
+    Number,
+    Sym,
+    None,
+    Termi, "terminator
+}
+
+seq Lex::Token
+{
+    Type,
+    Content,
+    Next,
+}
+
+seq Lex::Stream
+{
+    Head,
+    Ptr,
+    Index,
+    Size,
+}
+
+
+rout Lex::classify(
+    in char;
+    out type;
+){
+    put type = Lex::Type::Termi;
+    jump ~ 0 == char;
+
+    put type = Lex::Type::Space;
+    jump ~ `  == char;
+        
+    put type = Lex::Type::Alpha;
+    jump ~ 
+        (`A <= char && `Z >= char) ||
+        (`a <= char && `z >= char);
+
+    put type = Lex::Type::Number;
+    jump ~ 
+        (`0 <= char && `9 >= char);
+
+    put type = Lex::Type::Sym;
+    lab;
+}
+
+
+
+rout Lex::tokenize(
+    in source;
+    out stream;
+){
+    trans 64 ~ buffer;
+    put buf_index = 0;
+
+    trans Lex::Token ~ hook;
+    put last = hook;
+
+    put token_count = 0;
+
+    put type_old = Lex::Type::None;
+    iter char ~ source
+    {
+        sub Lex::classify (char, type ~ type_new);
+
+        jump skip_emit ~ type_new == type_old;
+        jump skip_emit ~ type_old == Lex::Type::None;
+        jump skip_emit_reset_buffer ~ type_old == Lex::Type::Space;
+            "copy content
+            pers (buf_index + 1) ~ content;
+            sub Mem::cpy(src ~ buffer, dst ~ content, len ~ buf_index);
+
+            "new token
+            pers Lex::Token ~ token;
+            put token.Lex::Token::Content = content;
+            put token.Lex::Token::Type    = type_old;
+
+            "link
+            put last.Lex::Token::Next = token;
+            put last = token;
+
+            put token_count = token_count + 1;
+
+        lab skip_emit_reset_buffer;
+            put buf_index = 0;
+
+        lab skip_emit;
+
+        put buffer.buf_index = char;
+        put buf_index = buf_index + 1;
+        put type_old = type_new;
+    }
+
+    pers Lex::Stream ~ stream;
+    put stream.Lex::Stream::Index = 0;
+    put stream.Lex::Stream::Size = token_count;
+    put stream.Lex::Stream::Head = hook.Lex::Token::Next;
+    put stream.Lex::Stream::Ptr  = hook.Lex::Token::Next;
+}
+
+
+rout Lex::advance(
+    in stream;
+){
+    put stream.Lex::Stream::Ptr = (stream.Lex::Stream::Ptr).Lex::Token::Next;
+    put stream.Lex::Stream::Index = stream.Lex::Stream::Index + 1;
+}
+
+rout Lex::peekToken(
+    in stream;
+    out token;
+){
+    put token = stream.Lex::Stream::Ptr;
+}
+
+rout Lex::peekContent(
+    in stream;
+    out content;
+){
+    sub Lex::peekToken(stream, token);
+    put content = token.Lex::Token::Content;
+}
+
+rout Lex::popToken(
+    in stream;
+    out token;
+){
+    sub Lex::peekToken(stream, token);
+    sub Lex::advance  (stream);
+}
+
+rout Lex::popContent(
+    in stream;
+    out content;
+){
+    sub Lex::popToken(stream, token);
+    put content = token.Lex::Token::Content;
+}
+
+rout Lex::has(
+    in stream;
+    out may;
+){
+    put may = (
+        stream.Lex::Stream::Size > 
+        stream.Lex::Stream::Index
+    );
+}

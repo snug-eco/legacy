@@ -1,0 +1,24 @@
+
+
+
+
+
+rout helper
+{
+    debug 10;
+    sub subhelper;
+    debug 30;
+}
+
+rout subhelper
+{
+    debug 20;
+}
+
+
+rout main
+{
+    sub helper;
+}
+
+

@@ -1,0 +1,89 @@
+
+"dynamic list (aka. vec) implementation :3
+
+seq Dyn
+{
+    Size,
+    Capacity,
+    Container
+}
+
+
+
+rout Dyn::newReserve(
+    in capacity;
+    out list;
+){
+    pers Dyn      ~ list;
+    pers capacity ~ list.Dyn::Container;
+    
+    put list.Dyn::Size     = 0;
+    put list.Dyn::Capacity = capacity;
+}
+
+rout Dyn::new(
+    out list;
+){
+    sub Dyn::newReserve(
+        capacity ~ 1,
+        list,
+    );
+}
+
+
+rout Dyn::void(
+    in list;
+){
+    void list.Dyn::Container;
+    void list;
+}
+
+
+rout Dyn::ensure(
+    in list;
+    in size;
+){
+    jump done ~ size < list.Dyn::Size; 
+    put list.Dyn::Size = size;
+
+    jump done ~ size < list.Dyn::Capacity;
+    put list.Dyn::Capacity = list.Dyn::Capacity * 2;
+
+    pers list.Dyn::Capacity ~ contNew;
+    enum x @ i ~ list.Dyn::Container
+    {
+        put contNew.i = x;
+    }
+
+    void list.Dyn::Container;
+    put list.Dyn::Container = contNew;
+
+    lab done;
+}
+
+
+rout Dyn::pushBack(
+    in list;
+    in value;
+){
+    put index = list.Dyn::Size;
+    sub Dyn::ensure (
+        list,
+        size ~ list.Dyn::Size + 1,
+    );
+
+    put (list.Dyn::Container).index = value;
+}
+
+
+
+rout Dyn::debug(
+    in list;
+){
+    count i ~ 0 .. list.Dyn::Size
+    {
+        put x = (list.Dyn::Container).i;
+        debug 'Dyn::debug: {x}';
+    }
+}
+

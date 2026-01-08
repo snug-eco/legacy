@@ -1,0 +1,38 @@
+{
+  "$schema": "https://tree-sitter.github.io/tree-sitter/assets/schemas/config.schema.json",
+  "grammars": [
+    {
+      "name": "snug",
+      "camelcase": "Snug",
+      "title": "Snug",
+      "scope": "source.snug",
+      "file-types": [
+        "snug"
+      ],
+      "injection-regex": "^snug$",
+      "class-name": "TreeSitterSnug"
+    }
+  ],
+  "metadata": {
+    "version": "0.1.0",
+    "license": "MIT",
+    "description": "Parser for the Snug programming language",
+    "authors": [
+      {
+        "name": "S1monr3dst0ne07"
+      }
+    ],
+    "links": {
+      "repository": "https://github.com/snugl/tree-sitter-snug.git"
+    }
+  },
+  "bindings": {
+    "c": true,
+    "go": true,
+    "node": true,
+    "python": true,
+    "rust": true,
+    "swift": true,
+    "zig": false
+  }
+}

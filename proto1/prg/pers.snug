@@ -1,0 +1,70 @@
+
+"disclaimer: the program was written under the influence of tetrahydrocannabinol
+
+
+"isn't that an alan walker song?
+seq Spectr
+{
+    White,
+    Black,
+    Yellow,
+    Red,
+    Green,
+    Blue,
+    Orange,
+    Magenta,
+    Pink,
+    Cyan,
+    Brown,
+    Gray,
+    Rose,
+}
+
+
+"like how i rect'd ur mom last nite, X3
+seq Rect
+{
+    Length, "in meters
+    Height, "in meters *bald eagle sobbing in background*
+    Color,
+}
+
+rout Rect::Alloc( out rect; )
+{
+    pers Rect ~ rect;
+    put rect.Rect::Length = 1;
+    put rect.Rect::Height = 1;
+    put rect.Rect::Color  = Spectr::Black; "like my fur (i'm a cat btw)
+}
+
+
+rout Rect::CreateByDim( in len; in hei; out rect; )
+{
+    "rects to rects, stack frames to stack frames
+    "you return to the information entropy, since from it you taken (Gen 3:19)
+    sub Rect::Alloc (rect ~ rect);
+
+    put rect.Rect::Length = len;
+    put rect.Rect::Height = hei;
+}
+
+rout Rect::GetArea( in rect; out area; )
+{
+    put area = 
+        (rect.Rect::Length) * 
+        (rect.Rect::Height);
+}
+
+
+rout main
+{
+    sub Rect::CreateByDim( len ~ 10, hei ~ 7, rect ~ rect );
+    put rect.Rect::Color = Spectr::Magenta; "like my eyes
+
+    sub Rect::GetArea( rect ~ rect, area ~ _ );
+    debug _;
+
+
+    debug rect . (0 - 1);
+}
+

@@ -1,0 +1,37 @@
+
+rout Str::print (
+    in block;
+){
+    put index = 0;
+
+    lab;
+        write block.index;
+        put index = index + 1;
+    jump ~ block.index != 0;
+}
+
+
+rout Str::len (
+    in block;
+    out len;
+){
+    put len = 0 - 1;
+
+    lab;
+        put len = len + 1;
+    jump ~ block.len != 0;
+}
+
+rout Str::toInt (
+    in block;
+    out int;
+){
+    put int = 0;
+
+    iter char ~ block {
+        jump ~ char == 0; "skip terminator
+        put int = (int * 10) + (char - `0);
+        lab;
+    }
+}
+

@@ -1,0 +1,42 @@
+"persisten memory test (disclaimer: written while high)
+
+
+
+"at times, the world can be very pretty
+seq TreeType
+{
+    Oak,
+    Birch,
+    Spruce,
+    DarkOak,
+    Ash,
+    Pine,
+    Maple,
+    Cherry,
+    Ceder,
+}
+
+
+
+"think of a beautiful tree
+seq Tree
+{
+    Type,
+    Height,
+
+}
+
+
+"search up 'cozy tree house' while you're high and you'll a very good time!
+"(at least i did, lolz x3)
+seq TreeHouse
+{
+    BaseTree,
+    Volume,
+
+}
+
+
+
+
+

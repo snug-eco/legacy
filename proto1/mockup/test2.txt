@@ -1,0 +1,114 @@
+
+
+"standard baabnq:
+
+    "(A::Int, B::Int) => (Prod::Int)
+    lab Math::Mul;
+        sub Stack::Swap; pull _b;
+        sub Stack::Swap; pull _a;
+
+        put _c = 0;
+
+        lab Math::Mul::Loop;
+            jump Math::Mul::Done ~ _a == 0;
+
+            put _c = _c + _b;
+            put _a = _a + 1;
+
+            jump Math::Mul::Loop;
+        lab Math::Mul::Done;
+
+        push _c;
+        sub Stack::Swap;
+        return;
+
+
+"prototype 1:
+"variables would be scoped
+"same with labels
+    
+    func Math::Mul
+        (Int a, Int b) => (Int c)
+    {
+        put c = 0;
+
+        lab Loop;
+            jump Done ~ a == 0;
+
+            put c = c + b;
+            put a = a + 1;
+
+            jump Loop;
+        lab Done;
+    }
+
+
+"prototype 2"
+    
+    func Math::Mul
+        (Int a, Int b) => (Int c)
+    {
+        put c = 0;
+
+        lab Math::Mul::Loop;
+            jump Math::Mul::Done ~ a == 0;
+
+            put c = c + b;
+            put a = a + 1;
+
+            jump Math::Mul::Loop;
+        lab Math::Mul::Done;
+    }
+
+"prototype 3"
+"variables would be scoped
+"same with labels
+
+    "(A::Int, B::Int) => (Prod::Int)
+    func mul
+    {
+        pull b;
+        pull a;
+
+        put c = 0;
+
+        lab loop;
+            jump done ~ a == 0;
+
+            put c = c + b;
+            put a = a + 1;
+
+            jump loop;
+        lab done;
+
+        push c; 
+    }
+
+
+    func main
+    {
+        in 10;
+        in 20;
+        call mul
+        out _;
+
+        print _;
+    }
+
+
+
+    func Fac
+    {
+        pull n;
+
+        save;
+        push n - 1;
+        sub Fac;
+        load;
+
+        push n;
+        sub Math::Mul;
+    }
+
+
+
