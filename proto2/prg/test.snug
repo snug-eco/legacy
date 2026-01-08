@@ -1,0 +1,34 @@
+
+use 'lib/heap.snug';
+
+const cfg_heap_size = 4096;
+
+rout main
+{
+    debug cfg_heap_size;
+
+    trans cfg_heap_size ~ buffer;
+    push buffer;
+    push cfg_heap_size;
+    sub Heap::Create;
+    pull heap;
+
+
+
+    push heap; push 10 - 1; sub Heap::New; pull a;
+    push heap; push  1 - 1; sub Heap::New; pull b;
+
+
+    debug a;
+    debug b;
+
+    push a; sub Heap::Void;
+    push b; sub Heap::Void;
+
+
+    push heap; push 5 - 1; sub Heap::New; pull c;
+    push heap; push 1 - 1; sub Heap::New; pull d;
+
+    debug c;
+    debug d;
+}
